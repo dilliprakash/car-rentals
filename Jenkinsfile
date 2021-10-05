@@ -17,7 +17,7 @@ pipeline{
                     branch 'develop'
                 }
                     steps{
-                        echo "upload artifacts to develop"
+                        sh 'mvn clean package'
                     }
                 }
                 stage("upload artifacts to deploy"){
@@ -25,7 +25,7 @@ pipeline{
                         branch 'release'
                     }
                         steps{
-                            echo "upload artifacts "
+                            sh 'mvn clean package'
         }
                     }
                 }
