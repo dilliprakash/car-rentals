@@ -7,6 +7,7 @@ pipeline{
         stage("maven build"){
             when {
                 branch 'master'
+            }
                 steps{
                     sh 'mvn clean package'
                 }
@@ -14,6 +15,7 @@ pipeline{
             stage("upload artifacts to nexus"){
                 when{
                     branch 'develop'
+                }
                     steps{
                         echo "upload artifacts to develop"
                     }
@@ -21,11 +23,12 @@ pipeline{
                 stage("upload artifacts to deploy"){
                     when{
                         branch 'release'
+                    }
                         steps{
                             echo "upload artifacts "
         }
                     }
                 }
     }
-        }
+        
     
