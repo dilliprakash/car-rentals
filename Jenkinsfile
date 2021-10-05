@@ -31,7 +31,14 @@ pipeline{
                             sh 'mvn clean package'
         }
                     }
+				stage('deploy to prod'){
+					when {
+						branch 'master'
+            }
+					steps{
+						echo "skipTests is ${params.skipTest}"
+						echo "deploying to prod"
+            }
+       }
                 }
     }
-        
-    
