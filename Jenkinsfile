@@ -1,57 +1,32 @@
 pipeline{
     agent any
-    tools {
-      maven 'maven3'
+    tools{
+        maven 'maven3'
     }
-    parameters {
-      booleanParam description: 'Skip test cases?', name: 'skipTest'
-    }
-
     stages{
-        
-        stage('Maven Build'){
-            when {
-                branch 'develop'
-            }
-            steps{
-                
-                sh "mvn clean package -DskipTests=${params.skipTest}"
-            }
-        }  
-        stage('upload artifact to nexus'){
-            when {
-                branch 'develop'
-            }
-            steps{
-                echo "uploading artifacts to nexus..."
-            }
-       }
-        
-       stage('deploy to dev'){
-            when {
-                branch 'develop'
-            }
-            steps{
-                echo "deploying to dev"
-            }
-       }
-       stage('deploy to qa'){
-            when {
-                branch 'release'
-            }
-            steps{
-                echo "deploying to qa"
-            }
-       }
-        
-        stage('deploy to prod'){
+        stage("maven build"){
             when {
                 branch 'master'
             }
-            steps{
-                echo "skipTests is ${params.skipTest}"
-                echo "deploying to prod"
+                steps{
+                    sh 'mvn clean package'
+                }
             }
-       }
-    } 
-}
+            stage("upload artifacts to nexus"){
+                when{
+                    branch 'develop'
+                }
+                    steps{
+                        sh 'mvn clean package'
+                    }
+                }
+                stage("upload artifacts to deploy"){
+                    when{
+                        branch 'release'
+                    }
+                        steps{
+                            sh 'mvn clean package'
+        }
+                    }
+                }
+    }
