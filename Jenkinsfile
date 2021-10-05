@@ -1,29 +1,30 @@
 pipeline{
     agent any
-    tools {
-      maven 'maven3'
+    tools{
+        maven 'maven3'
     }
-    
-
     stages{
-        
-        stage('Maven Build'){
+        stage("maven build"){
             when {
                 branch 'master'
+                steps{
+                    sh 'mvn clean package'
+                }
             }
-            steps{
-                
-                sh "mvn clean package"
-            }
-        }  
-        stage('upload artifact to nexus'){
-            when {
-                branch 'release'
-            }
-            steps{
-                echo "uploading artifacts to nexus..."
-            
-            }
-       }
-    } 
-}
+            stage("upload artifacts to nexus"){
+                when{
+                    branch 'develop'
+                    steps{
+                        echo "upload artifacts to develop"
+                    }
+                }
+                stage("upload artifacts to deploy"){
+                    when{
+                        branch 'release'
+                        steps{
+                            echo "upload artifacts "
+        }
+                    }
+                }
+    }
+    
