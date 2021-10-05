@@ -3,13 +3,16 @@ pipeline{
     tools{
         maven 'maven3'
     }
+    parameters {
+         booleanParam 'skiptest'
+}
     stages{
         stage("maven build"){
             when {
                 branch 'master'
             }
                 steps{
-                    sh 'mvn clean package'
+                    sh "mvn clean package -DskipTest &{params.skiptest}"
                 }
             }
             stage("upload artifacts to nexus"){
