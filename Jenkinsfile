@@ -12,7 +12,7 @@ pipeline{
                 branch 'master'
             }
                 steps{
-                    sh "mvn clean package -DskipTest &{params.skiptest}"
+                    sh "mvn clean package -DskipTests=&{params.skiptest}"
                 }
             }
             stage("upload artifacts to nexus"){
